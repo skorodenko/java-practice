@@ -34,10 +34,11 @@ public class IO_csv_handle {
 
     public ArrayList<String> readCSV() {
         ArrayList<String> res = new ArrayList<String>();
+        BufferedReader csvReader = null;
         try {
             FileReader reader = new FileReader(this.in);
             
-            BufferedReader csvReader = new BufferedReader(reader);
+            csvReader = new BufferedReader(reader);
             String row = "";
             do {
                 row = csvReader.readLine();
@@ -46,13 +47,19 @@ public class IO_csv_handle {
                 }
             } while(row != null);
 
-            reader.close();
         } catch(FileNotFoundException e) {
             logger.severe("InFile not found " + this.in);
             System.exit(0);
         } catch(IOException e) {
             logger.severe("Problem in reading a file " + e);
             System.exit(0);
+        } finally {
+            try {
+                csvReader.close();
+            } catch(IOException e) {
+                logger.severe("Problem file IO " + e);
+                System.exit(0);
+            }
         }
         return res;
     }

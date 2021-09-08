@@ -9,8 +9,8 @@ public class Main {
         //final String delimiter = args[2];
         //final String ndelimiter = args[3];
 
-        final String infile = "./in.csv";
-        final String outfile = "./out.csv";
+        final String infile = "./Lab_1/in.csv";
+        final String outfile = "./Lab_1/out.csv";
         final String delimiter = ",";
         final String ndelimiter = "+";
 
