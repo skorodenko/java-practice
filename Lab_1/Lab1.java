@@ -14,6 +14,9 @@ public class Lab1 {
 
         for(String str: arr) {
             String[] tmp = str.split(String.format("%s(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", delimiter));
+            for(String tstr: tmp) {
+                System.out.println(tstr);
+            }
             for(String s: tmp) {
                 int counter = 0;
                 s = s.replaceAll("\"\"", "\"");
@@ -24,6 +27,7 @@ public class Lab1 {
                 res.add(counter);
             }
             res.add(-1);
+            System.out.println("\n");
         }
 
         return res;
