@@ -16,7 +16,7 @@ public class Main {
 
         IO_csv_handle handle = new IO_csv_handle(infile, outfile, delimiter);
 
-        System.out.println("\n"+handle);
+        //System.out.println("\n"+handle);
 
         ArrayList<String> input = handle.readCSV();
 
