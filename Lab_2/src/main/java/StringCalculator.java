@@ -1,6 +1,6 @@
 public class StringCalculator {
     public int Add(String numbers) {
-        String[] str_arr = numbers.split(",");
+        String[] str_arr = numbers.split("[,\n]");
 
         int sum = 0;
         for(String number: str_arr) {

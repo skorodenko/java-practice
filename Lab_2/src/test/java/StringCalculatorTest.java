@@ -39,4 +39,16 @@ public class StringCalculatorTest {
     public void equals_to_fifteen() {
         assertEquals(15, calculator.Add("1,2,3,4,5"));
     }
+
+    // Step 3 tests
+    @Test
+    public void equals_to_three() {
+        assertEquals(3, calculator.Add("1,1\n1"));
+    }
+
+    @Test
+    public void equals_to_null_with_newline() {
+        assertEquals(0, calculator.Add("\n"));
+    }
+
 }
