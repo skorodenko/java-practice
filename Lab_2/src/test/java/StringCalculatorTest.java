@@ -107,4 +107,10 @@ public class StringCalculatorTest {
     public void non_atomic_delimiter() throws Exception {
         assertEquals(7, calculator.Add("//[***]\n1***2***3\n1"));
     }
+
+    // Step 8 tests
+    @Test
+    public void multiple_atomic_delimiter() throws Exception {
+        assertEquals(6, calculator.Add("//[*][%]\n1*2%3"));
+    }
 }
