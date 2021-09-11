@@ -3,8 +3,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringCalculator {
+    static private int countAdd = 0;
 
     public int Add(String numbers) throws Exception {
+        countAdd += 1;
         String delimiter = ",";
 
         Pattern pattern = Pattern.compile("//(.)\n");
@@ -26,6 +28,10 @@ public class StringCalculator {
                     negativeError.add(num);
                 }
 
+                if(num > 1000) {
+                    num = 0;
+                }
+
                 sum += num;
             }
             catch(NumberFormatException e) {
@@ -38,5 +44,9 @@ public class StringCalculator {
         }
 
         return sum;
+    }
+
+    public int GetCalledCount() {
+        return countAdd;
     }
 }

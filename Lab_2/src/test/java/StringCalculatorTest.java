@@ -86,4 +86,19 @@ public class StringCalculatorTest {
         }
         assertTrue(thrown);
     }
+
+    // Step 6 + GetCalledCount tests
+    @Test
+    public void more_than_thousand_does_not_count() throws Exception {
+        assertEquals(1, calculator.Add("//.\n1.2000\n30000.12000"));
+    }
+
+    @Test
+    public void get_called_count_test() throws Exception {
+        assertEquals(0, calculator.GetCalledCount());
+        calculator.Add("");
+        calculator.Add("");
+        calculator.Add("");
+        assertEquals(3, calculator.GetCalledCount());
+    }
 }
