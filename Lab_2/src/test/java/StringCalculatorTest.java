@@ -101,4 +101,10 @@ public class StringCalculatorTest {
         calculator.Add("");
         assertEquals(3, calculator.GetCalledCount());
     }
+
+    // Step 7 tests
+    @Test
+    public void non_atomic_delimiter() throws Exception {
+        assertEquals(7, calculator.Add("//[***]\n1***2***3\n1"));
+    }
 }

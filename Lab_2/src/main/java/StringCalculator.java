@@ -9,14 +9,25 @@ public class StringCalculator {
         countAdd += 1;
         String delimiter = ",";
 
-        Pattern pattern = Pattern.compile("//(.)\n");
-        Matcher matcher = pattern.matcher(numbers);
+        Pattern pattern1 = Pattern.compile("//(.)\n");
+        Pattern pattern2_1 = Pattern.compile("//([^\n]+)\n");
+        Pattern pattern2_2 = Pattern.compile("(?:\\[(.+?)\\])");
+        Matcher matcher1 = pattern1.matcher(numbers);
+        Matcher matcher2_1 = pattern2_1.matcher(numbers);
 
-        if(matcher.find()) {
-            delimiter = matcher.group(1);
+        if(matcher1.find()) {
+            delimiter = Pattern.quote(matcher1.group(1));
+        } else if(matcher2_1.find()) {
+            String unparsed_delimiters = matcher2_1.group(1);
+            Matcher matcher2_2 = pattern2_2.matcher(unparsed_delimiters);
+            ArrayList<String> tstr = new ArrayList<String>();
+            while(matcher2_2.find()) {
+                tstr.add(Pattern.quote(matcher2_2.group(1)));
+            }
+            delimiter = String.join("|", tstr);
         }
 
-        String[] str_arr = numbers.split(String.format("[%s\n]", delimiter));
+        String[] str_arr = numbers.split(String.format("%s|[\n]", delimiter));
 
         int sum = 0;
         ArrayList<Integer> negativeError = new ArrayList<Integer>();
