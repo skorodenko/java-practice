@@ -51,4 +51,14 @@ public class StringCalculatorTest {
         assertEquals(0, calculator.Add("\n"));
     }
 
+    // Step 4 tests
+    @Test
+    public void semicolon_equal_to_four() {
+        assertEquals(4, calculator.Add("//;\n1;2\n1"));
+    }
+
+    @Test
+    public void dot_equal_to_seven() {
+        assertEquals(7, calculator.Add("//.\n1.2\n3.1"));
+    }
 }
