@@ -1,6 +1,6 @@
 package com.kpi;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public interface ProtoMatrix {
     
@@ -8,16 +8,16 @@ public interface ProtoMatrix {
      * Get size of a matrix
      * @return Integer
      */
-    public Integer getSize();
+    public int[] getSize();
     
     
     /**
      * If this and other matrices have are identical
      * Hash codes of this and other may be different
-     * @param Matrix other
+     * @param Object obj
      * @return boolean
      */
-    public boolean equals(Matrix other);
+    public boolean equals(Object obj);
 
     
     /**
@@ -34,7 +34,8 @@ public interface ProtoMatrix {
      * @param Integer x
      * @return T Number
      */
-    public <T extends Number> T get(Integer y, Integer x);
+    public <T extends Number> T get(Integer y, Integer x) 
+    throws IndexOutOfBoundsException;
 
     
     /**
@@ -44,24 +45,32 @@ public interface ProtoMatrix {
      * @param Integer x
      * @param T value
      */
-    public <T extends Number> void set(Integer y, Integer x, T value);
+    public <T extends Number> void set(Integer y, Integer x, T value) 
+    throws IndexOutOfBoundsException;
 
     
     /**
      * Get a row (Vector) at index y
      * @param <T> Number
      * @param Integer y
-     * @return Vector<T>
+     * @return ArrayList<T>
      */
-    public <T extends Number> Vector<T> getRow(Integer y);
+    public <T extends Number> ArrayList<T> getRow(Integer y)
+    throws IndexOutOfBoundsException;
     
     
     /**
      * Get a column (Vector) at index x
      * @param <T> Number
      * @param Integer y
-     * @return Vector<T>
+     * @return ArrayList<T>
      */
-    public <T extends Number> Vector<T> getColumn(Integer x);
+    public <T extends Number> ArrayList<T> getColumn(Integer x)
+    throws IndexOutOfBoundsException;
     
+    /**
+     * Returns string interpretation of Matrix
+     * @return String
+     */
+    public String toString();
 }     
