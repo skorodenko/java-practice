@@ -2,7 +2,7 @@ package com.kpi;
 
 import java.util.ArrayList;
 
-public interface ProtoMatrix {
+public interface ProtoMatrix <T extends Number> {
     
     /**
      * Get size of a matrix
@@ -34,7 +34,7 @@ public interface ProtoMatrix {
      * @param Integer x
      * @return T Number
      */
-    public <T extends Number> T get(Integer y, Integer x) 
+    public T get(Integer y, Integer x) 
     throws IndexOutOfBoundsException;
 
     
@@ -45,7 +45,7 @@ public interface ProtoMatrix {
      * @param Integer x
      * @param T value
      */
-    public <T extends Number> void set(Integer y, Integer x, T value) 
+    public void set(Integer y, Integer x, T value) 
     throws IndexOutOfBoundsException;
 
     
@@ -55,7 +55,7 @@ public interface ProtoMatrix {
      * @param Integer y
      * @return ArrayList<T>
      */
-    public <T extends Number> ArrayList<T> getRow(Integer y)
+    public ArrayList<T> getRow(Integer y)
     throws IndexOutOfBoundsException;
     
     
@@ -65,7 +65,7 @@ public interface ProtoMatrix {
      * @param Integer y
      * @return ArrayList<T>
      */
-    public <T extends Number> ArrayList<T> getColumn(Integer x)
+    public ArrayList<T> getColumn(Integer x)
     throws IndexOutOfBoundsException;
     
     /**
