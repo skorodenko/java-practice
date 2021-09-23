@@ -196,4 +196,15 @@ public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
         ArrayList<Integer> size = new ArrayList<>(List.of(this.h, this.w));
         return size;
     }
+    
+    public void transponate() {
+
+        MatrixIm<T> tmp = new MatrixIm<>(this.w, this.h);
+
+        for(int i = 0; i < this.w; i++) {
+            tmp.data.set(i, this.getColumn(i));
+        }
+
+        this.data = tmp.data;
+    }
 }

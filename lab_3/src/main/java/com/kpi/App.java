@@ -8,8 +8,10 @@ public class App
         System.out.println( m );
 
         Matrix<Float> t = new Matrix<>(1,5);
-        System.out.println(t);
         t.set(2, (float)24);
+        System.out.println(t);
+        t.transponate();
+        System.out.println(t);
 
         MatrixIm<Integer> k = MatrixIm.randomColumnVector(5);
         System.out.println(k);

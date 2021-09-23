@@ -245,4 +245,14 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
         return true;
     }
 
+    public void transponate() {
+
+        Matrix<T> tmp = new Matrix<>(this.w, this.h);
+
+        for(int i = 0; i < this.w; i++) {
+            tmp.data.set(i, this.getColumn(i));
+        }
+
+        this.data = tmp.data;
+    }
 }
