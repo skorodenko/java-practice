@@ -2,29 +2,23 @@ package com.kpi;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public class Matrix<T extends Number> implements ProtoMatrix<T> {
- 
-    static private ArrayList<Number> __ones(Integer start, Integer capacity) {
-        ArrayList<Number> tmp = new ArrayList<>();
 
-        for(int i = 0; i < capacity; i++) {
-            if(i == start) { 
-                tmp.add(1);
-                continue;
-            }
-            tmp.add(0);
-        }
-
-        return tmp;
-    }
-
-    static public ArrayList<ArrayList<Number>> onesMatrix(Integer size) { 
-        ArrayList<ArrayList<Number>> m = new ArrayList<ArrayList<Number>>();
+    static public <T extends Number> Matrix<T> onesMatrix(Integer size) { 
         
+        Matrix<T> m = new Matrix<>(size, size);
+
         for(int i = 0; i < size; i++) {
-            m.add(__ones(i, size));
+            for(int j = 0; j < size; j++) {
+                if(i == j) {
+                    m.set(i, j, (T) Integer.valueOf(1));
+                    continue;
+                }
+                m.set(i,j, (T) Integer.valueOf(0));
+            }
         }
         
         return m;
@@ -57,7 +51,7 @@ public class Matrix<T extends Number> implements ProtoMatrix<T> {
         //this.data = new ArrayList<ArrayList<T>>(IntStream.range(0, h).mapToObj(i -> new ArrayList<String>(Collections.nCopies(this.w, null))).forEach(keys::add));
         //this.data = new ArrayList<ArrayList<T>>(Collections.nCopies(this.h, new ArrayList<T>(Collections.nCopies(this.w, null))));
         for(int i = 0; i < this.h; i++) {
-            this.data.add(new ArrayList<T>(Collections.nCopies(this.w, null)));
+            this.data.add(new ArrayList<T>(Collections.nCopies(this.w, (T) Integer.valueOf(0))));
         }
     }
 
@@ -85,8 +79,8 @@ public class Matrix<T extends Number> implements ProtoMatrix<T> {
     }
 
     @Override
-    public int[] getSize() {
-        int[] size = {this.h, this.w};
+    public ArrayList<Integer> getSize() {
+        ArrayList<Integer> size = new ArrayList<>(List.of(this.h, this.w));
         return size;
     }
 
@@ -124,7 +118,7 @@ public class Matrix<T extends Number> implements ProtoMatrix<T> {
 
     @Override
     public String toString() {
-        return this.data.toString();
+        return String.join("]\n", this.data.toString().split("],"));
     }
 
      

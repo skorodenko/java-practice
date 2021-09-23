@@ -8,7 +8,7 @@ public interface ProtoMatrix <T extends Number> {
      * Get size of a matrix
      * @return Integer
      */
-    public int[] getSize();
+    public ArrayList<Integer> getSize();
     
     
     /**
