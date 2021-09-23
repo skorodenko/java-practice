@@ -33,9 +33,21 @@ public interface ProtoMatrix <T extends Number> {
      * @param Integer y
      * @param Integer x
      * @return T Number
+     * @throws IndexOutOfBoundsException
      */
     public T get(Integer y, Integer x) 
     throws IndexOutOfBoundsException;
+    
+
+    /**
+     * Get an item at position p for Vectors
+     * @param p
+     * @return T
+     * @throws IndexOutOfBoundsException
+     */
+    public T get(Integer p)
+    throws IndexOutOfBoundsException;
+
 
     /**
      * Get data from Matrix
@@ -63,6 +75,7 @@ public interface ProtoMatrix <T extends Number> {
     public ArrayList<T> getColumn(Integer x)
     throws IndexOutOfBoundsException;
     
+
     /**
      * Returns string interpretation of Matrix
      * @return String

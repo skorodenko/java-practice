@@ -7,10 +7,11 @@ public class App
         Matrix<Double> m = Matrix.onesMatrix(3);
         System.out.println( m );
 
-        Matrix<Integer> t = new Matrix<>(5,1);
+        Matrix<Float> t = new Matrix<>(1,5);
         System.out.println(t);
+        t.set(2, (float)24);
 
-        MatrixIm<Integer> k = new MatrixIm<>(t);
+        MatrixIm<Integer> k = MatrixIm.randomColumnVector(5);
         System.out.println(k);
     }
 }

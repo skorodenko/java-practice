@@ -3,9 +3,43 @@ package com.kpi;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 
 public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<T> {
+    
+    static public <T extends Number> Matrix<T> randomColumnVector(Integer size) {
+        int y = size;
+        int x = 1;
+        
+        Matrix<T> cv = new Matrix<>(y, x);
+        
+        Random rand = new Random();
+
+        for(int i = 0; i < y; i++) {
+            for(int j = 0; j < x; j++) {
+                cv.set(i,j, (T) Integer.valueOf(rand.nextInt(100)));
+            }
+        }
+        
+        return cv;
+    }
+
+    static public <T extends Number> Matrix<T> randomRawVector(Integer size) {
+        int y = 1;
+        int x = size;
+
+        Matrix<T> rv = new Matrix<>(1, size);
+        
+        Random rand = new Random();
+
+        for(int i = 0; i < y; i++) {
+            for(int j = 0; j < x; j++) {
+                rv.set(i,j, (T) Integer.valueOf(rand.nextInt(100)));
+            }
+        }
+        return rv;
+    }
 
     static public <T extends Number> Matrix<T> onesMatrix(Integer size) { 
         
@@ -35,7 +69,7 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
         this.h = 0;
         this.w = 0;
 
-        data = null;
+        this.data = new ArrayList<ArrayList<T>>();
     }
 
     /**
@@ -133,6 +167,18 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
 
         this.data.get(y).set(x, value);
     }
+
+    @Override
+    public void set(Integer p, T Item)
+    throws IndexOutOfBoundsException {
+        if(this.w == 1) {
+            __checkY(p);
+            this.data.get(p).set(this.w - 1, Item);
+        } else if (this.h == 1) {
+            __checkX(p);
+            this.data.get(this.h - 1).set(p, Item);
+        }
+    }
     
     @Override
     public T get(Integer y, Integer x)
@@ -141,6 +187,20 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
         __checkX(x);
 
         return this.data.get(y).get(x);
+    }
+    
+    @Override
+    public T get(Integer p)
+    throws IndexOutOfBoundsException {
+        if(this.w == 1) {
+            __checkY(p);
+            return this.data.get(p).get(this.w - 1);
+        } else if (this.h == 1) {
+            __checkX(p);
+            return this.data.get(this.h - 1).get(p);
+        } else {
+            return null;
+        }
     }
 
     @Override

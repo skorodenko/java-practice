@@ -11,4 +11,14 @@ public interface ProtoMutMatrix <T extends Number> {
      */
     public void set(Integer y, Integer x, T value) 
     throws IndexOutOfBoundsException;
+
+
+    /**
+     * Set an item in vector
+     * @param p
+     * @param item
+     * @throws IndexOutOfBoundsException
+     */
+    public void set(Integer p, T item)
+    throws IndexOutOfBoundsException;
 }

@@ -3,8 +3,61 @@ package com.kpi;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
+
+
+    static public <T extends Number> MatrixIm<T> randomColumnVector(Integer size) {
+        int y = size;
+        int x = 1;
+        
+        MatrixIm<T> cv = new MatrixIm<>(y, x);
+        
+        Random rand = new Random();
+
+        for(int i = 0; i < y; i++) {
+            for(int j = 0; j < x; j++) {
+                cv.__set(i,j, (T) Integer.valueOf(rand.nextInt(100)));
+            }
+        }
+        
+        return cv;
+    }
+
+    static public <T extends Number> MatrixIm<T> randomRawVector(Integer size) {
+        int y = 1;
+        int x = size;
+
+        MatrixIm<T> rv = new MatrixIm<>(1, size);
+        
+        Random rand = new Random();
+
+        for(int i = 0; i < y; i++) {
+            for(int j = 0; j < x; j++) {
+                rv.__set(i,j, (T) Integer.valueOf(rand.nextInt(100)));
+            }
+        }
+        return rv;
+    }
+
+    static public <T extends Number> MatrixIm<T> onesMatrix(Integer size) { 
+        
+        MatrixIm<T> m = new MatrixIm<>(size, size);
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if(i == j) {
+                    m.__set(i, j, (T) Integer.valueOf(1));
+                    continue;
+                }
+                m.__set(i,j, (T) Integer.valueOf(0));
+            }
+        }
+        
+        return m;
+    }
+
 
     private int h;
     private int w;
@@ -17,7 +70,7 @@ public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
         this.h = 0;
         this.w = 0;
 
-        data = null;
+        this.data = new ArrayList<ArrayList<T>>();
     }
 
     /**
@@ -108,6 +161,24 @@ public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
         __checkX(x);
 
         return this.data.get(y).get(x);
+    }
+    
+    private void __set(Integer y, Integer x, T value) {
+        this.data.get(y).set(x, value);
+    }
+
+    @Override
+    public T get(Integer p)
+    throws IndexOutOfBoundsException {
+        if(this.w == 1) {
+            __checkY(p);
+            return this.data.get(p).get(this.w-1);
+        } else if (this.h == 1) {
+            __checkX(p);
+            return this.data.get(this.h-1).get(p);
+        } else {
+            return null;
+        }
     }
 
     @Override
