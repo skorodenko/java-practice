@@ -37,16 +37,11 @@ public interface ProtoMatrix <T extends Number> {
     public T get(Integer y, Integer x) 
     throws IndexOutOfBoundsException;
 
-    
     /**
-     * Set an item at index y, x with number value 
-     * @param <T> Number
-     * @param Integer y
-     * @param Integer x
-     * @param T value
+     * Get data from Matrix
+     * @return ArrayList<ArrayList<T>>
      */
-    public void set(Integer y, Integer x, T value) 
-    throws IndexOutOfBoundsException;
+    public ArrayList<ArrayList<T>> getData();
 
     
     /**

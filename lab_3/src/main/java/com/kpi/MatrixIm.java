@@ -4,25 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<T> {
-
-    static public <T extends Number> Matrix<T> onesMatrix(Integer size) { 
-        
-        Matrix<T> m = new Matrix<>(size, size);
-
-        for(int i = 0; i < size; i++) {
-            for(int j = 0; j < size; j++) {
-                if(i == j) {
-                    m.set(i, j, (T) Integer.valueOf(1));
-                    continue;
-                }
-                m.set(i,j, (T) Integer.valueOf(0));
-            }
-        }
-        
-        return m;
-    }
+public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
 
     private int h;
     private int w;
@@ -31,7 +13,7 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
     /**
      * Create empty Matrix 
      */
-    public Matrix() {
+    public MatrixIm() {
         this.h = 0;
         this.w = 0;
 
@@ -43,7 +25,7 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
      * @param int h
      * @param int w
      */
-    public Matrix(int h, int w) {
+    public MatrixIm(int h, int w) {
         this.h = h;
         this.w = w;
 
@@ -55,11 +37,11 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
         }
     }
 
-    /**
+     /**
      * Create a copy of another Matrix
      * @param Matrix other
      */
-    public Matrix(Matrix<T> other) {
+    public MatrixIm(Matrix<T> other) {
         ArrayList<Integer> coords = other.getSize();
         this.h = coords.get(0);
         this.w = coords.get(1);
@@ -71,7 +53,7 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
      * Create a copy of another MatrixIm
      * @param Matrix other
      */
-    public Matrix(MatrixIm<T> other) {
+    public MatrixIm(MatrixIm<T> other) {
         ArrayList<Integer> coords = other.getSize();
         this.h = coords.get(0);
         this.w = coords.get(1);
@@ -120,21 +102,6 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
     }
 
     @Override
-    public ArrayList<Integer> getSize() {
-        ArrayList<Integer> size = new ArrayList<>(List.of(this.h, this.w));
-        return size;
-    }
-
-    @Override
-    public void set(Integer y, Integer x, T value) 
-    throws IndexOutOfBoundsException {
-        __checkY(y);
-        __checkX(x);
-
-        this.data.get(y).set(x, value);
-    }
-    
-    @Override
     public T get(Integer y, Integer x)
     throws IndexOutOfBoundsException {
         __checkY(y);
@@ -152,37 +119,10 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
     public String toString() {
         return String.join("]\n", this.data.toString().split("],"));
     }
-
-     
+    
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
-        result = prime * result + h;
-        result = prime * result + w;
-        return result;
+    public ArrayList<Integer> getSize() {
+        ArrayList<Integer> size = new ArrayList<>(List.of(this.h, this.w));
+        return size;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Matrix<T> other = (Matrix<T>) obj;
-        if (data == null) {
-            if (other.data != null)
-                return false;
-        } else if (!data.equals(other.data))
-            return false;
-        if (h != other.h)
-            return false;
-        if (w != other.w)
-            return false;
-        return true;
-    }
-
 }
