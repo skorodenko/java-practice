@@ -8,6 +8,30 @@ import java.util.Random;
 
 public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<T> {
     
+    static public <T extends Number> Matrix<T> diagonalMatrix(Matrix<T> vector) 
+    throws IndexOutOfBoundsException {
+        
+        if(Collections.min(vector.getSize()) != 1) {
+            throw new IndexOutOfBoundsException("You should pass a valid vector to this method");
+        }
+        
+        Integer size = Collections.max(vector.getSize()); 
+
+        Matrix<T> m = new Matrix<>(size, size);
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if(i == j) {
+                    m.set(i, j, vector.get(i));
+                    continue;
+                }
+                m.set(i,j, (T) Integer.valueOf(0));
+            }
+        }
+        
+        return m;
+    }
+
     static public <T extends Number> Matrix<T> randomColumnVector(Integer size) {
         int y = size;
         int x = 1;
@@ -245,7 +269,7 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
         return true;
     }
 
-    public void transponate() {
+    public Matrix<T> transponate() {
 
         Matrix<T> tmp = new Matrix<>(this.w, this.h);
 
@@ -253,6 +277,6 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
             tmp.data.set(i, this.getColumn(i));
         }
 
-        this.data = tmp.data;
+        return tmp;
     }
 }

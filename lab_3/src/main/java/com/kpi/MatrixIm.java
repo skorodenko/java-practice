@@ -7,6 +7,29 @@ import java.util.Random;
 
 public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
 
+    static public <T extends Number> Matrix<T> diagonalMatrix(Matrix<T> vector) 
+    throws IndexOutOfBoundsException {
+        
+        if(Collections.min(vector.getSize()) != 1) {
+            throw new IndexOutOfBoundsException("You should pass a valid vector to this method");
+        }
+        
+        Integer size = Collections.max(vector.getSize()); 
+
+        Matrix<T> m = new Matrix<>(size, size);
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if(i == j) {
+                    m.set(i, j, vector.get(i));
+                    continue;
+                }
+                m.set(i,j, (T) Integer.valueOf(0));
+            }
+        }
+        
+        return m;
+    }
 
     static public <T extends Number> MatrixIm<T> randomColumnVector(Integer size) {
         int y = size;
@@ -197,7 +220,7 @@ public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
         return size;
     }
     
-    public void transponate() {
+    public MatrixIm<T> transponate() {
 
         MatrixIm<T> tmp = new MatrixIm<>(this.w, this.h);
 
@@ -205,6 +228,37 @@ public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
             tmp.data.set(i, this.getColumn(i));
         }
 
-        this.data = tmp.data;
+        return tmp; 
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((data == null) ? 0 : data.hashCode());
+        result = prime * result + h;
+        result = prime * result + w;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MatrixIm<T> other = (MatrixIm<T>) obj;
+        if (data == null) {
+            if (other.data != null)
+                return false;
+        } else if (!data.equals(other.data))
+            return false;
+        if (h != other.h)
+            return false;
+        if (w != other.w)
+            return false;
+        return true;
     }
 }
