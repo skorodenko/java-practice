@@ -276,7 +276,61 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
         for(int i = 0; i < this.w; i++) {
             tmp.data.set(i, this.getColumn(i));
         }
-
+        // this.data = tmp.data;
         return tmp;
+    }
+
+    public void upperTriangular() {
+        Integer row = this.getSize().get(0);
+        Integer col = this.getSize().get(1);
+ 
+        // if number of rows and columns are not equal,
+        // then return back
+        if (row != col) {
+            System.out.println(
+                "Matrix should be a Square Matrix");
+            return;
+        }
+        else {
+            // looping over the whole matrix
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+ 
+                    // for the rows,whose column number is
+                    // greater then row number,mark the
+                    // element as 0
+                    if (i > j) {
+                        this.set(i, j, (T) Integer.valueOf(0));
+                    }
+                }
+            }
+        }
+    }
+    
+    public void lowerTriangular() {
+        Integer row = this.getSize().get(0);
+        Integer col = this.getSize().get(1);
+ 
+        // if number of rows and columns are not equal,
+        // then return back
+        if (row != col) {
+            System.out.println(
+                "Matrix should be a Square Matrix");
+            return;
+        }
+        else {
+            // looping over the whole matrix
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+ 
+                    // for the rows,whose column number is
+                    // greater then row number,mark the
+                    // element as 0
+                    if (i < j) {
+                        this.set(i, j, (T) Integer.valueOf(0));
+                    }
+                }
+            }
+        }
     }
 }
