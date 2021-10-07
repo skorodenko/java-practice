@@ -8,6 +8,23 @@ import java.util.Random;
 
 public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<T> {
     
+    static public <T extends Number> Matrix<T> randomMatrix(Integer h, Integer w) {
+        int y = h;
+        int x = w;
+        
+        Matrix<T> m = new Matrix<>(y, x);
+        
+        Random rand = new Random();
+
+        for(int i = 0; i < y; i++) {
+            for(int j = 0; j < x; j++) {
+                m.set(i,j, (T) Integer.valueOf(rand.nextInt(100)));
+            }
+        }
+        
+        return m;
+    }
+    
     static public <T extends Number> Matrix<T> diagonalMatrix(Matrix<T> vector) 
     throws IndexOutOfBoundsException {
         
@@ -122,7 +139,11 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
         this.h = coords.get(0);
         this.w = coords.get(1);
 
-        this.data = other.getData();
+        this.data = new ArrayList<ArrayList<T>>();
+        other.getData().forEach( (arr) -> this.data.add((ArrayList<T>) arr.clone()) );
+        //Iterator<ArrayList<T>> iter = other.getData().iterator(); 
+        // FOR
+        //this.data.add((ArrayList<T>) iter.next().clone());
     }
 
     /**

@@ -5,9 +5,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
+final public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
 
-    static public <T extends Number> Matrix<T> diagonalMatrix(Matrix<T> vector) 
+    static public <T extends Number> MatrixIm<T> randomMatrix(Integer h, Integer w) {
+        int y = h;
+        int x = w;
+        
+        MatrixIm<T> m = new MatrixIm<>(y, x);
+        
+        Random rand = new Random();
+
+        for(int i = 0; i < y; i++) {
+            for(int j = 0; j < x; j++) {
+                m.__set(i,j, (T) Integer.valueOf(rand.nextInt(100)));
+            }
+        }
+        
+        return m;
+    }
+
+    static public <T extends Number> MatrixIm<T> diagonalMatrix(MatrixIm<T> vector) 
     throws IndexOutOfBoundsException {
         
         if(Collections.min(vector.getSize()) != 1) {
@@ -16,15 +33,39 @@ public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
         
         Integer size = Collections.max(vector.getSize()); 
 
-        Matrix<T> m = new Matrix<>(size, size);
+        MatrixIm<T> m = new MatrixIm<>(size, size);
 
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 if(i == j) {
-                    m.set(i, j, vector.get(i));
+                    m.__set(i, j, vector.get(i));
                     continue;
                 }
-                m.set(i,j, (T) Integer.valueOf(0));
+                m.__set(i,j, (T) Integer.valueOf(0));
+            }
+        }
+        
+        return m;
+    }
+
+    static public <T extends Number> MatrixIm<T> diagonalMatrix(Matrix<T> vector) 
+    throws IndexOutOfBoundsException {
+        
+        if(Collections.min(vector.getSize()) != 1) {
+            throw new IndexOutOfBoundsException("You should pass a valid vector to this method");
+        }
+        
+        Integer size = Collections.max(vector.getSize()); 
+
+        MatrixIm<T> m = new MatrixIm<>(size, size);
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if(i == j) {
+                    m.__set(i, j, vector.get(i));
+                    continue;
+                }
+                m.__set(i,j, (T) Integer.valueOf(0));
             }
         }
         
@@ -122,7 +163,11 @@ public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
         this.h = coords.get(0);
         this.w = coords.get(1);
 
-        this.data = other.getData();
+        this.data = new ArrayList<ArrayList<T>>();
+        other.getData().forEach( (arr) -> this.data.add((ArrayList<T>) arr.clone())); 
+        //Iterator<ArrayList<T>> iter = other.getData().iterator(); 
+        // FOR
+        //this.data.add((ArrayList<T>) iter.next().clone());
     }
 
     /**
