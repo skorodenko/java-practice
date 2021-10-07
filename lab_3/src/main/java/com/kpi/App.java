@@ -6,7 +6,7 @@ public class App
     {
         // Task 1 incapsulated Matrix
 
-        /*
+        
         // Task 2 Constructors + copy
         Matrix<Integer> c1 = new Matrix<>();
         System.out.println(c1 + "\n");
@@ -19,7 +19,7 @@ public class App
         c3.set(0,0,9);
         System.out.println(c2 + "\n");
         System.out.println(c3 + "\n");
-        */
+        
 
         /* 
         // Task 3 setter
