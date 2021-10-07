@@ -7,7 +7,7 @@ import java.util.Random;
 
 final public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
 
-    static public <T extends Number> MatrixIm<T> randomMatrix(Integer h, Integer w) {
+    final static public <T extends Number> MatrixIm<T> randomMatrix(Integer h, Integer w) {
         int y = h;
         int x = w;
         
@@ -256,7 +256,8 @@ final public class MatrixIm <T extends Number> implements ProtoMatrix<T> {
 
     @Override
     public String toString() {
-        return String.join("]\n", this.data.toString().split("],"));
+        String tmp = String.join("]\n", this.data.toString().split("],"));
+        return String.join("", tmp.split(","));
     }
     
     @Override
