@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<T> {
+public class Matrix<T> implements ProtoMatrix<T>, ProtoMutMatrix<T> {
     
     static public <T extends Number> Matrix<T> randomMatrix(Integer h, Integer w) {
         int y = h;
@@ -35,7 +35,7 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
         Integer size = Collections.max(vector.getSize()); 
 
         Matrix<T> m = new Matrix<>(size, size);
-
+        new Str()
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 if(i == j) {
@@ -255,7 +255,8 @@ public class Matrix<T extends Number> implements ProtoMatrix<T>, ProtoMutMatrix<
 
     @Override
     public String toString() {
-        return String.join("]\n", this.data.toString().split("],"));
+        String tmp = String.join("]\n", this.data.toString().split("],"));
+        return String.join("", tmp.split(","));
     }
 
      
