@@ -10,6 +10,7 @@ public class MyConfiguration implements Configuration {
         binder.bind(MyPrototype.class);
 
         binder.bind(UseA.class);
+        binder.bind(UseAB.class);
 
         binder.bind(A.class, B.class);
         binder.bind(B.class, new B());

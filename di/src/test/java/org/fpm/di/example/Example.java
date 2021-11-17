@@ -1,6 +1,7 @@
 package org.fpm.di.example;
 
 import org.fpm.di.Container;
+import org.fpm.di.DependencyEnvironment;
 import org.fpm.di.Environment;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,7 @@ public class Example {
 
     @Before
     public void setUp() {
-        Environment env = new DummyEnvironment();
+        Environment env = new DependencyEnvironment();
         container = env.configure(new MyConfiguration());
     }
 
