@@ -4,25 +4,49 @@ import org.fpm.di.Container;
 import org.fpm.di.DependencyEnvironment;
 import org.fpm.di.Environment;
 import org.fpm.di.example.*;
-import org.fpm.di.example.UseAB;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class TestComposer {
-    public static void main(String[] args) {
 
+    private Container container;
+
+    @Before
+    public void setUp() {
         Environment env = new DependencyEnvironment();
-        Container container = env.configure(new MyConfiguration());
-
-        System.out.println(container.getComponent(A.class));
-        System.out.println(container.getComponent(B.class));
-        System.out.println(container.getComponent(MySingleton.class));
-        System.out.println(container.getComponent(MySingleton.class));
-        System.out.println(container.getComponent(MyPrototype.class));
-        System.out.println(container.getComponent(MyPrototype.class));
-        // C class - some non-existent in configuration class (to test runtime behaviour)
-        //System.out.println(container.getComponent(C.class));
-        System.out.println(container.getComponent(UseA.class));
-        // Next 2 instances are different, though composed of same A,B dependency
-        System.out.println(container.getComponent(UseAB.class).getADependency());
-        System.out.println(container.getComponent(UseAB.class).getBDependency());
+        container = env.configure(new MyConfiguration());
     }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowRuntimeException() {
+        // C class isn't mentioned in configuration,
+        // so the object cannot be created.
+        container.getComponent(C.class);
+    }
+
+    @Test
+    public void compoundInjection() {
+        // binder.bind(A.class, B.class);
+        // binder.bind(B.class, new B());
+        Assert.assertSame(container.getComponent(UseAB.class).getADependency(),
+                          container.getComponent(UseAB.class).getBDependency());
+    }
+
+    @Test
+    public void shouldReturnNotSame() {
+        // Previous class should be different object
+        // with same A,B dependencies
+        Assert.assertNotSame(container.getComponent(UseAB.class),
+                             container.getComponent(UseAB.class));
+    }
+
+    @Test
+    public void singletonInjection() {
+        // Singleton is Singleton, even though UseASingleton is injected
+        // with A dependency.
+        Assert.assertSame(container.getComponent(UseASingleton.class),
+                          container.getComponent(UseASingleton.class));
+    }
+
 }
