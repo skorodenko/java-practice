@@ -4,6 +4,7 @@ package org.fpm.di;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.management.RuntimeErrorException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -16,7 +17,7 @@ public class DependencyContainer implements Container{
     // Map with
     // Key: class
     // Value: implementation
-    private Map<Class<?>, Class<?>> diMap;
+    private final Map<Class<?>, Class<?>> diMap;
 
     // Scope of resolved objects
     // Class binds to Object in two cases:
@@ -39,19 +40,11 @@ public class DependencyContainer implements Container{
 
     @Override
     public <T> T getComponent(Class<T> clazz) {
-        try {
-            return getInstance(clazz);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return getInstance(clazz);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getInstance(Class<T> interfaceClass)
-            throws InstantiationException, IllegalAccessException {
+    private <T> T getInstance(Class<T> interfaceClass) {
         Class<?> implementationClass = getImplementationClass(interfaceClass);
 
         // Added Synchronized statement to ensure safe multithreading,
@@ -67,37 +60,50 @@ public class DependencyContainer implements Container{
             Constructor<?>[] ctors = implementationClass.getConstructors();
 
             // Searching for constructors with @Inject annotation
-            Optional<Constructor<?>> constructorInjection = Arrays.stream(ctors)
+            List<Constructor<?>> constructorInjection = Arrays.stream(ctors)
                     .filter(ctor -> ctor.getAnnotation(Inject.class) != null)
-                    .findFirst();
+                    .collect(Collectors.toList());
 
-            // Class (implementation) is created following by two rules:
+            // Class (implementation) is created following by next rules:
             //  * If object has no constructor (no injection) -> create instance
             //  * If object has constructor with Injection -> create instance(dependencies)
-            //  # If there is more than one constructor 1 is chosen randomly
-            if(constructorInjection.isPresent()) {
-                // This block should probably be simplified, though I haven't found any simple solution
-                Constructor<?> ctor = constructorInjection.get();
+            //  * If object has >=1 constructors with Injection:
+            //      - They are sorted by the number of dependencies
+            //      - Then trying to create at least one
+            //      - If one is created it is returned
+            //      - If one cannot be created -> RuntimeException
+            if(!constructorInjection.isEmpty()) {
+                for(Constructor<?> ctor: constructorInjection) {
+                    try {
+                        Class<?>[] ctorArguments = ctor.getParameterTypes();
+                        List<Object> objects = new ArrayList<>();
+                        for(Class<?> arg: ctorArguments) {
+                            objects.add(getInstance(arg));
+                        }
+                        service = ctor.newInstance(objects.toArray());
+                    }
+                    // RuntimeErrorException is ignored, because it just indicates
+                    // that some dependency cannot be created for this constructor.
+                    // And if this constructor has unmet dependencies, then we can
+                    // try the next one.
+                    catch (RuntimeErrorException ignore) {
+                        // Just to clarify things ;)
+                        continue;
+                    } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+                // If all constructors have unmet dependencies -> RuntimeException.
+                if(service == null) {
+                    throw new RuntimeException("Cannot create " + implementationClass.toString() +
+                            " from any constructor");
+                }
+            } else {
                 try {
-                    Class<?>[] ctorArguments = ctor.getParameterTypes();
-                    service = ctor.newInstance(
-                            Arrays.stream(ctorArguments).map(x -> {
-                                try {
-                                    return getInstance(x);
-                                } catch (InstantiationException e) {
-                                    e.printStackTrace();
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
-                                }
-                                return null;
-                            }).toArray()
-                    );
-                } catch (InvocationTargetException e) {
+                    service = implementationClass.newInstance();
+                } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
-
-            } else {
-                service = implementationClass.newInstance();
             }
 
             // If implementationClass is singleton put it into scope

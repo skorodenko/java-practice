@@ -49,4 +49,32 @@ public class TestComposer {
                           container.getComponent(UseASingleton.class));
     }
 
+    @Test
+    public void multipleInjectors1() {
+        // Should use constructor with 2 dependencies
+        // binder.bind(A.class, B.class);
+        // binder.bind(B.class, new B());
+        Assert.assertSame(container.getComponent(MultipleInjects1.class).getADependency(),
+                          container.getComponent(MultipleInjects1.class).getBDependency());
+    }
+
+    @Test
+    public  void multipleInjectors2() {
+        // Shold use constructor with one dependency
+        // C.class (see MultipleInjects2) cannot be created within this config.
+        // binder.bind(A.class, B.class);
+        // binder.bind(B.class, new B());
+        MultipleInjects2 obj = container.getComponent(MultipleInjects2.class);
+
+        Assert.assertSame(obj.getADependency(),
+                          container.getComponent(A.class));
+        Assert.assertSame(obj.getBDependency(),
+                          null);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void multipleInjectors3() {
+        container.getComponent(MultipleInjects3.class);
+    }
+
 }

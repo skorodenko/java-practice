@@ -1,19 +1,24 @@
 package org.fpm.di.Composertest;
 
-
 import org.fpm.di.example.A;
 import org.fpm.di.example.B;
 
 import javax.inject.Inject;
 
-public class UseAB {
+public class MultipleInjects2 {
     private final A dependencyA;
     private final B dependencyB;
 
     @Inject
-    public UseAB(A a, B b) {
+    public MultipleInjects2(A a, C c) {
         this.dependencyA = a;
-        this.dependencyB = b;
+        this.dependencyB = null;
+    }
+
+    @Inject
+    public MultipleInjects2(A a) {
+        this.dependencyA = a;
+        this.dependencyB = null;
     }
 
     public A getADependency() {
@@ -23,5 +28,4 @@ public class UseAB {
     public B getBDependency() {
         return dependencyB;
     }
-
 }
