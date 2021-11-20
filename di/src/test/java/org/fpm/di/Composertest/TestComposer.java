@@ -60,7 +60,7 @@ public class TestComposer {
 
     @Test
     public  void multipleInjectors2() {
-        // Shold use constructor with one dependency
+        // Should use constructor with one dependency
         // C.class (see MultipleInjects2) cannot be created within this config.
         // binder.bind(A.class, B.class);
         // binder.bind(B.class, new B());
@@ -74,6 +74,9 @@ public class TestComposer {
 
     @Test(expected = RuntimeException.class)
     public void multipleInjectors3() {
+        // Should throw RuntimeException,
+        // because all constructors of this object
+        // have unmet dependencies.
         container.getComponent(MultipleInjects3.class);
     }
 
