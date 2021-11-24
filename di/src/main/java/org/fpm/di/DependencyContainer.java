@@ -30,7 +30,7 @@ public class DependencyContainer implements Container{
         this.resolvedScope = new HashMap<>();
     }
 
-    public Map getDiMap() {
+    public Map<Class<?>, Class<?>> getDiMap() {
         return diMap;
     }
 
@@ -45,11 +45,11 @@ public class DependencyContainer implements Container{
 
     @SuppressWarnings("unchecked")
     private <T> T getInstance(Class<T> interfaceClass) {
-        Class<?> implementationClass = getImplementationClass(interfaceClass);
 
         // Added Synchronized statement to ensure safe multithreading,
         // so that resolvedScope couldn't be changed simultaneously.
         synchronized (resolvedScope) {
+            Class<?> implementationClass = getImplementationClass(interfaceClass);
 
             // Checks if implementation is bound to Object, or Singleton (which was created before)
             if (resolvedScope.containsKey(implementationClass)) {
@@ -82,7 +82,7 @@ public class DependencyContainer implements Container{
                         }
                         service = ctor.newInstance(objects.toArray());
                     }
-                    // RuntimeErrorException is ignored, because it just indicates
+                    // RuntimeException is ignored, because it just indicates
                     // that some dependency cannot be created for this constructor.
                     // And if this constructor has unmet dependencies, then we can
                     // try the next one.
@@ -139,6 +139,6 @@ public class DependencyContainer implements Container{
             errorMessage = "There are " + implementationClasses.size() +
                     " implementations of interface " + interfaceClass.getName();
         }
-        throw new RuntimeErrorException(new Error(errorMessage));
+        throw new RuntimeException(errorMessage);
     }
 }

@@ -58,7 +58,7 @@ public class TestComposer {
                           container.getComponent(MultipleInjects1.class).getBDependency());
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public  void multipleInjectors2() {
         // Should use constructor with one dependency
         // C.class (see MultipleInjects2) cannot be created within this config.
