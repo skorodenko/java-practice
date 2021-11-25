@@ -117,7 +117,7 @@ public class DependencyContainer implements Container{
         }
     }
 
-    private Class<?> getImplementationClass(Class<?> interfaceClass) {
+    private Class<?> getImplementationClass(Class<?> interfaceClass) throws RuntimeException {
         // Search for class implementation in diMap keys
         Set<Map.Entry<Class<?>, Class<?>>> implementationClasses = diMap.entrySet().stream()
                 .filter(entry -> entry.getKey() == interfaceClass).collect(Collectors.toSet());

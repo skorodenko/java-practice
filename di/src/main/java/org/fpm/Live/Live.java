@@ -10,6 +10,5 @@ public class Live {
         Environment env = new DependencyEnvironment();
         Container container = env.configure(new LiveConfiguration());
 
-        container.getComponent(A.class);
     }
 }
