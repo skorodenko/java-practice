@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class DependencyBinder implements Binder{
 
-    private Map<Class<?>, Class<?>> diMap;
-    private Map<Class<?>, Object> resolvedScope;
+    private final Map<Class<?>, Class<?>> diMap;
+    private final Map<Class<?>, Object> resolvedScope;
 
     public DependencyBinder(Map<Class<?>, Class<?>> diMap, Map<Class<?>, Object> resolvedScope) {
         this.diMap = diMap;

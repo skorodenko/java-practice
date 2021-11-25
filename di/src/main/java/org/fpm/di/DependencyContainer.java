@@ -122,7 +122,7 @@ public class DependencyContainer implements Container{
         Set<Map.Entry<Class<?>, Class<?>>> implementationClasses = diMap.entrySet().stream()
                 .filter(entry -> entry.getKey() == interfaceClass).collect(Collectors.toSet());
         String errorMessage = "";
-        if (implementationClasses == null || implementationClasses.size() == 0) {
+        if (implementationClasses.size() == 0) {
             // No implementation in diMap means that there may be implementation in resolvedScope
             // (Class bound to Object)
             // Otherwise throw no implementation exception
@@ -134,10 +134,6 @@ public class DependencyContainer implements Container{
             // One implementation in diMap -> return its class name
             Optional<Map.Entry<Class<?>, Class<?>>> optional = implementationClasses.stream().findFirst();
             return optional.get().getValue();
-        } else if (implementationClasses.size() > 1) {
-            // Dependency conflict -> throw exception
-            errorMessage = "There are " + implementationClasses.size() +
-                    " implementations of interface " + interfaceClass.getName();
         }
         throw new RuntimeException(errorMessage);
     }
