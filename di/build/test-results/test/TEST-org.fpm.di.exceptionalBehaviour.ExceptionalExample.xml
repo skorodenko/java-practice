@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.fpm.di.exceptionalBehaviour.ExceptionalExample" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-11-25T08:19:42" hostname="rinkuro" time="0.005">
+<testsuite name="org.fpm.di.exceptionalBehaviour.ExceptionalExample" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-11-25T11:56:16" hostname="rinkuro" time="0.004">
   <properties/>
   <testcase name="sholdThrowError1" classname="org.fpm.di.exceptionalBehaviour.ExceptionalExample" time="0.001"/>
   <testcase name="shouldThrowError2" classname="org.fpm.di.exceptionalBehaviour.ExceptionalExample" time="0.001"/>
