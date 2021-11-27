@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.fpm.di.Composertest.TestComposer" tests="7" skipped="0" failures="0" errors="0" timestamp="2021-11-25T11:56:16" hostname="rinkuro" time="0.015">
+  <properties/>
+  <testcase name="shouldReturnNotSame" classname="org.fpm.di.Composertest.TestComposer" time="0.006"/>
+  <testcase name="shouldThrowRuntimeException" classname="org.fpm.di.Composertest.TestComposer" time="0.001"/>
+  <testcase name="compoundInjection" classname="org.fpm.di.Composertest.TestComposer" time="0.001"/>
+  <testcase name="multipleInjectors1" classname="org.fpm.di.Composertest.TestComposer" time="0.001"/>
+  <testcase name="multipleInjectors2" classname="org.fpm.di.Composertest.TestComposer" time="0.001"/>
+  <testcase name="multipleInjectors3" classname="org.fpm.di.Composertest.TestComposer" time="0.002"/>
+  <testcase name="singletonInjection" classname="org.fpm.di.Composertest.TestComposer" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
